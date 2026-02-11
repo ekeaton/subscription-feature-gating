@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -8,4 +5,29 @@ generator client {
 
 datasource db {
   provider = "sqlite"
+}
+
+model User {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  email          String       @unique
+  passwordHash   String
+  subscriptionId Int
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  projects       Project[]
+}
+
+model Subscription {
+  id           Int    @id @default(autoincrement())
+  planType     String
+  projectLimit Int
+  users        User[]
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
 }
