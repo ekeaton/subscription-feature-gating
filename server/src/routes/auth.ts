@@ -5,7 +5,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const router = Router();
-const adapter = new PrismaBetterSqlite3({ url: "file:./prisma/dev.db" });
+const adapter = new PrismaBetterSqlite3({
+  url: process.env.DATABASE_URL as string,
+});
 const prisma = new PrismaClient({ adapter });
 
 router.post("/register", async (req, res) => {
