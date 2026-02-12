@@ -1,6 +1,7 @@
-import express from 'express';
-import 'dotenv/config';
-import cors from 'cors';
+import express from "express";
+import "dotenv/config";
+import cors from "cors";
+import authRouter from "./routes/auth";
 
 const app = express();
 
@@ -9,13 +10,14 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-app.get('/health', (req, res) => {
+app.get("/health", (req, res) => {
   res.status(200).json({
-    status: 'healthy',
-    message: 'Server is running smoothly'
+    status: "healthy",
+    message: "Server is running smoothly",
   });
 });
 
+app.use("/auth", authRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
